@@ -1,0 +1,1 @@
+let pokemonList = [{name: ["Bulbasaur", "Sharpedo", "Wailord"], height: 7, type: ["grass", "poison"]}];
