@@ -10,11 +10,39 @@
 
 <body>
 
+    <script>
+let repository = [
+    {
+        name: "Bulbasaur",
+        height: 0.7,
+        types : ["grass", "poison"]
+    },
+    {
+        name: "Charizard",
+        height: 1.7,
+        types: ["fire", "flying"]
+    },
+    {
+        name: "Squirtle",
+        height: 1,
+        types: ["water"]
+    }
+];
 
-    <script>alert('Hello world');</script>
+for (let i = 0; i < repository.length; i++) {
+  if (repository[i].height < 1.2 && repository[i].height > 0.9) {
+    document.write(repository[i].name + " this is an average size pokemon!");
+  } else if (repository[i].height < 0.9) {
+    document.write(repository[i].name + " Ooops!! that`s a small pokemon!");
+  } else {
+    document.write(repository[i].name + " Wow!! that`s big pokemon!")
+  }
+}
 
 
-    <script src="script.js"></script>
+    </script>
+
+    <script src="/js/scripts.js"></script>
 </body>
 
 </html>
