@@ -1,7 +1,23 @@
 let pokemonRepository = (function () {
-  let modalContainer = document.querySelector('#modalContainer');
+  let modalContainer = document.querySelector('#modal-container');
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+
+  function loadList() {
+    return fetch(apiUrl).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      json.results.forEach(function (item) {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url
+        };
+        add(pokemon);
+      });
+    }).catch(function (e) {
+      console.error(e);
+    });
+  }
 
   function add(pokemon) {
     pokemonList.push(pokemon);
@@ -25,20 +41,10 @@ let pokemonRepository = (function () {
 
   };
 
-  function loadList() {
-    return fetch(apiUrl).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      json.results.forEach(function (item) {
-        let pokemon = {
-          name: item.name,
-          detailsUrl: item.url
-        };
-        add(pokemon);
-      });
-    }).catch(function (e) {
-      console.error(e);
-    })
+  function showDetails(pokemon) {
+    loadDetails(pokemon).then(function () {
+      showModal(pokemon);
+    });
   };
 
   function loadDetails(item) {
@@ -56,7 +62,7 @@ let pokemonRepository = (function () {
     });
   };
 
-  function showModal(title, text) {
+  function showModal(pokemon) {
     // Clear all existing modal content
     modalContainer.innerHTML = ' ';
 
@@ -71,21 +77,28 @@ let pokemonRepository = (function () {
     closeButtonElement.addEventListener('click', hideModal);
 
     let titleElement = document.createElement('h1');
-    titleElement.innerText = title;
+    titleElement.innerText = pokemon.name;
 
     let contentElement = document.createElement('p');
-    contentElement.innerText = text;
+    contentElement.innerText = "The height is: " + pokemon.height;
 
+    let contentElement2 = document.createElement('p');
+    contentElement2.innerText = " "; //I will come back later to this
+
+    let imageElement = document.createElement('img');
+    imageElement.src = pokemon.imageUrl;
 
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
     modal.appendChild(contentElement);
+    modal.appendChild(contentElement2);
+    modal.appendChild(imageElement);
     modalContainer.appendChild(modal);
     modalContainer.classList.add('is-visible');
   }
 
   function hideModal() {
-    modalContainer.classList.remove(/*'is-visible'*/);
+    modalContainer.classList.remove('is-visible');
   }
 
   //The Esc-key scenario, then, can be implemented this way, only hiding the modal if it’s actually visible:
@@ -111,11 +124,6 @@ let pokemonRepository = (function () {
   });
 
 
-  function showDetails(pokemon) {
-    loadDetails(pokemon).then(function () {
-      showModal(pokemon);
-    });
-  };
 
   return {
     add: add,
