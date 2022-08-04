@@ -83,8 +83,8 @@ let pokemonRepository = (function () {
     contentElement.innerText = "The height is: " + pokemon.height;
 
     let contentElement2 = document.createElement('p');
-    contentElement2.innerText = " "; //I will come back later to this
-
+    contentElement2.innerText = "The type is: " + pokemon.types;
+    
     let imageElement = document.createElement('img');
     imageElement.src = pokemon.imageUrl;
 
@@ -118,11 +118,6 @@ let pokemonRepository = (function () {
       hideModal();
     }
   });
-
-  document.querySelector('#show-modal').addEventListener('click', () => {
-    showModal('Modal title', 'This is a pokémon');
-  });
-
 
 
   return {
